@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { io } from "socket.io-client";
+
+const CHAT_SERVER_URL = ""
+
+const connectChatServer = () => {
+  const socket = io(CHAT_SERVER_URL, {
+    transports: ["websocket"],
+    path: "/"
+  });
+  socket.onAny((type: string, message: string, user: any) => console.log(type, message, user));
+  return socket;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-screen h-screen bg-slate-800">
+      <h1 className="text-white text-2xl">Worlds best chat app</h1>
+      <p className="text-white">Let's create an awesome chat client</p>
     </div>
   );
 }
