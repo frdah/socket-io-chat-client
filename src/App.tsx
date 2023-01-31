@@ -1,15 +1,17 @@
 import { io } from "socket.io-client";
 
-const CHAT_SERVER_URL = "https://socket-io-chat-server-production.up.railway.app"
+const CHAT_SERVER_URL = ""
 
 const connectChatServer = () => {
-  const socket = io(CHAT_SERVER_URL);
-  socket.onAny((type, message, user) => console.log(type, message, user));
+  const socket = io(CHAT_SERVER_URL, {
+    transports: ["websocket"],
+    path: "/"
+  });
+  socket.onAny((type: string, message: string, user: any) => console.log(type, message, user));
   return socket;
 };
 
 function App() {
-  connectChatServer();
   return (
     <div className="w-screen h-screen bg-slate-800">
       <h1 className="text-white text-2xl">Worlds best chat app</h1>
