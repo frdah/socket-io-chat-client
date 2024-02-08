@@ -1,7 +1,7 @@
 # SOCKET-IO-CHAT-CLIENT
 
 Small hiring exercise for frontend engineers. The questions are fairly open ended. 
-Uses [socket-io-chat-server](https://github.com/Pixxle/socket-io-chat-server) as it's backend. 
+Uses [socket-io-chat-server](https://github.com/Pixxle/socket-io-chat-server) as it's backend. And to run this project locally you first need to start the server, and then the client on the same machine. 
 
 Problem statements: 
 You've been given the task to write a simple chat client that reads messages from a undocument socket.io server. 
