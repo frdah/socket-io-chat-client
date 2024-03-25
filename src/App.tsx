@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { MessageData, User, UserType } from "./models";
+import { MessageData, User, MessageType } from "./models";
 import { ToggleSwitch } from "./toggleSwitch.component";
 
 const CHAT_SERVER_URL = "127.0.0.1:3000"; //default local port
@@ -29,18 +29,23 @@ function App() {
   const connectChatServer = () => {
     const socket = io(CHAT_SERVER_URL);
     socketRef.current = socket;
-    socketRef.current.onAny((type: UserType, message: string, user: User) => {
-      console.log(type, message, user);
-      setMessages((prevMessages) => [...prevMessages, { type, message, user }]);
-      scrollToBottom();
-    });
+    socketRef.current.onAny(
+      (type: MessageType, message: string, user: User) => {
+        console.log(type, message, user);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { type, message, user },
+        ]);
+        scrollToBottom();
+      }
+    );
     return socket;
   };
 
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (socketRef.current && inputValue.trim()) {
-      socketRef.current.emit(UserType.MESSAGE, inputValue);
+      socketRef.current.emit(MessageType.MESSAGE, inputValue);
       scrollToBottom();
       setInputValue("");
     }
@@ -48,15 +53,19 @@ function App() {
 
   const renderMessage = (message: MessageData) => {
     switch (message.type) {
-      case "USER_JOINED": {
+      case MessageType.JOINED:
         return <span className="italic text-xs">Joined the chat</span>;
-      }
-      case "USER_LEFT": {
+
+      case MessageType.LEFT:
         return <span className="italic text-xs">Left the chat</span>;
-      }
-      case "USER_MESSAGE": {
+
+      case MessageType.MESSAGE:
         return <span className="flex-wrap">{message.message}</span>;
-      }
+
+      default:
+        return (
+          <span className="italic text-xs">Message could not be displayed</span>
+        );
     }
   };
 

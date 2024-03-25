@@ -7,10 +7,10 @@ export type User = {
 export type MessageData = {
   user: User;
   message: string;
-  type: UserType;
+  type: MessageType;
 };
 
-export enum UserType {
+export enum MessageType {
   JOINED = "USER_JOINED",
   LEFT = "USER_LEFT",
   MESSAGE = "USER_MESSAGE",
